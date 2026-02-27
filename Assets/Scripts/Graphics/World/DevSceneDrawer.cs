@@ -377,7 +377,7 @@ namespace DLS.Graphics
 			Bounds2D bounds = DrawDisplay(display, pos, 1, rootChip, sim);
 
 			// Border colour around display
-			Draw.ModifyQuad(displayBorderID, bounds.Centre, bounds.Size + Vector2.one * 0.03f, borderCol);
+			//Draw.ModifyQuad(displayBorderID, bounds.Centre, bounds.Size + Vector2.one * 0.03f, borderCol);
 			// Black background behind display to fill any gaps
 			Draw.ModifyQuad(displayBackingID, bounds.Centre, bounds.Size, Color.black);
 
@@ -451,7 +451,7 @@ namespace DLS.Graphics
 		public static Bounds2D DrawDisplay_RGB(Vector2 centre, float scale, SimChip simSource)
 		{
 			const int pixelsPerRow = 16;
-			const float borderFrac = 0.95f;
+			const float borderFrac = 1f;
 			const float pixelSizeT = 0.925f;
 			// Draw background
 			Draw.Quad(centre, Vector2.one * scale, Color.black);
@@ -494,7 +494,7 @@ namespace DLS.Graphics
 		public static Bounds2D DrawDisplay_Dot(Vector2 centre, float scale, SimChip simSource)
 		{
 			const int pixelsPerRow = 16;
-			const float borderFrac = 0.95f;
+			const float borderFrac = 1f;
 			const float pixelSizeT = 0.925f;
 			// Draw background
 			Draw.Quad(centre, Vector2.one * scale, Color.black);
