@@ -21,7 +21,11 @@ namespace DLS.Game
 				CreateInputOrOutputPin(ChipType.Out_4Bit),
 				CreateInputOrOutputPin(ChipType.In_8Bit),
 				CreateInputOrOutputPin(ChipType.Out_8Bit),
-				CreateInputKeyChip(),
+                CreateInputOrOutputPin(ChipType.In_16Bit),
+                CreateInputOrOutputPin(ChipType.Out_16Bit),
+                CreateInputOrOutputPin(ChipType.In_32Bit),
+                CreateInputOrOutputPin(ChipType.Out_32Bit),
+                CreateInputKeyChip(),
 				// ---- Basic Chips ----
 				CreateNand(),
 				CreateTristateBuffer(),
@@ -34,10 +38,14 @@ namespace DLS.Game
 				CreateBitConversionChip(ChipType.Split_4To1Bit, PinBitCount.Bit4, PinBitCount.Bit1, 1, 4),
 				CreateBitConversionChip(ChipType.Split_8To4Bit, PinBitCount.Bit8, PinBitCount.Bit4, 1, 2),
 				CreateBitConversionChip(ChipType.Split_8To1Bit, PinBitCount.Bit8, PinBitCount.Bit1, 1, 8),
+                CreateBitConversionChip(ChipType.Split_16To8Bit, PinBitCount.Bit16, PinBitCount.Bit8, 1, 2),
+                CreateBitConversionChip(ChipType.Split_32To16Bit, PinBitCount.Bit32, PinBitCount.Bit16, 1, 2),
 
-				CreateBitConversionChip(ChipType.Merge_1To8Bit, PinBitCount.Bit1, PinBitCount.Bit8, 8, 1),
+                CreateBitConversionChip(ChipType.Merge_1To8Bit, PinBitCount.Bit1, PinBitCount.Bit8, 8, 1),
 				CreateBitConversionChip(ChipType.Merge_1To4Bit, PinBitCount.Bit1, PinBitCount.Bit4, 4, 1),
 				CreateBitConversionChip(ChipType.Merge_4To8Bit, PinBitCount.Bit4, PinBitCount.Bit8, 2, 1),
+                CreateBitConversionChip(ChipType.Merge_8To16Bit, PinBitCount.Bit8, PinBitCount.Bit16, 2, 1),
+                CreateBitConversionChip(ChipType.Merge_16To32Bit, PinBitCount.Bit16, PinBitCount.Bit32, 2, 1),
 				// ---- Displays ----
 				CreateDisplay7Seg(),
 				CreateDisplayRGB(),
@@ -50,6 +58,10 @@ namespace DLS.Game
 				CreateBusTerminus(PinBitCount.Bit4),
 				CreateBus(PinBitCount.Bit8),
 				CreateBusTerminus(PinBitCount.Bit8),
+                CreateBus(PinBitCount.Bit16),
+                CreateBusTerminus(PinBitCount.Bit16),
+                CreateBus(PinBitCount.Bit32),
+                CreateBusTerminus(PinBitCount.Bit32),
 				// ---- Audio ----
 				CreateBuzzer()
 			};
@@ -319,7 +331,9 @@ namespace DLS.Game
 				PinBitCount.Bit1 => new Vector2(GridSize * 2, GridSize * 2),
 				PinBitCount.Bit4 => new Vector2(GridSize * 2, GridSize * 3),
 				PinBitCount.Bit8 => new Vector2(GridSize * 2, GridSize * 4),
-				_ => throw new Exception("Bus bit count not implemented")
+                PinBitCount.Bit16 => new Vector2(GridSize * 4, GridSize * 4),
+                PinBitCount.Bit32 => new Vector2(GridSize * 4, GridSize * 8),
+                _ => throw new Exception("Bus bit count not implemented")
 			};
 		}
 
@@ -330,7 +344,9 @@ namespace DLS.Game
 				PinBitCount.Bit1 => ChipType.Bus_1Bit,
 				PinBitCount.Bit4 => ChipType.Bus_4Bit,
 				PinBitCount.Bit8 => ChipType.Bus_8Bit,
-				_ => throw new Exception("Bus bit count not implemented")
+                PinBitCount.Bit16 => ChipType.Bus_16Bit,
+                PinBitCount.Bit32 => ChipType.Bus_32Bit,
+                _ => throw new Exception("Bus bit count not implemented")
 			};
 
 			string name = ChipTypeHelper.GetName(type);
@@ -379,7 +395,9 @@ namespace DLS.Game
 				PinBitCount.Bit1 => ChipType.BusTerminus_1Bit,
 				PinBitCount.Bit4 => ChipType.BusTerminus_4Bit,
 				PinBitCount.Bit8 => ChipType.BusTerminus_8Bit,
-				_ => throw new Exception("Bus bit count not implemented")
+                PinBitCount.Bit16 => ChipType.BusTerminus_16Bit,
+                PinBitCount.Bit32 => ChipType.BusTerminus_32Bit,
+                _ => throw new Exception("Bus bit count not implemented")
 			};
 
 			ChipDescription busOrigin = CreateBus(bitCount);

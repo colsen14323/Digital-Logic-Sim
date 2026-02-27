@@ -49,7 +49,54 @@ namespace DLS.Simulation
 			}
 		}
 
-		public static void Set8BitFrom4BitSources(ref ulong state, ulong a, ulong b)
+        public static void Set8BitFrom16BitSource(ref ulong state, ulong source16bit, bool firstByte)
+        {
+            uint sourceBitStates = GetBitStates(source16bit);
+            uint sourceTristateFlags = GetTristateFlags(source16bit);
+
+            if (firstByte)
+            {
+                const uint mask = 0b11111111;
+                Set(ref state, (uint)(sourceBitStates & mask), (uint)(sourceTristateFlags & mask));
+            }
+            else
+            {
+                const ulong mask = 0b1111111100000000;
+                Set(ref state, (uint)((sourceBitStates & mask) >> 8), (uint)((sourceTristateFlags & mask) >> 8));
+            }
+        }
+        public static void Set16BitFrom32BitSource(ref ulong state, ulong source32bit, bool firstWord)
+        {
+            uint sourceBitStates = GetBitStates(source32bit);
+            uint sourceTristateFlags = GetTristateFlags(source32bit);
+
+            if (firstWord)
+            {
+                const uint mask = 0b1111111111111111;
+                Set(ref state, (uint)(sourceBitStates & mask), (uint)(sourceTristateFlags & mask));
+            }
+            else
+            {
+                const ulong mask = 0b11111111111111110000000000000000;
+                Set(ref state, (uint)((sourceBitStates & mask) >> 16), (uint)((sourceTristateFlags & mask) >> 16));
+            }
+        }
+
+        public static void Set32BitFrom16BitSources(ref ulong state, ulong a, ulong b)
+        {
+            uint bitStates = (uint)(GetBitStates(a) | (GetBitStates(b) << 16));
+            uint tristateFlags = (uint)((GetTristateFlags(a) & 0b1111111111111111) | ((GetTristateFlags(b) & 0b1111111111111111) << 16));
+            Set(ref state, bitStates, tristateFlags);
+        }
+
+        public static void Set16BitFrom8BitSources(ref ulong state, ulong a, ulong b)
+        {
+            uint bitStates = (uint)(GetBitStates(a) | (GetBitStates(b) << 8));
+            uint tristateFlags = (uint)((GetTristateFlags(a) & 0b11111111) | ((GetTristateFlags(b) & 0b11111111) << 8));
+            Set(ref state, bitStates, tristateFlags);
+        }
+
+        public static void Set8BitFrom4BitSources(ref ulong state, ulong a, ulong b)
 		{
 			uint bitStates = (uint)(GetBitStates(a) | (GetBitStates(b) << 4));
 			uint tristateFlags = (uint)((GetTristateFlags(a) & 0b1111) | ((GetTristateFlags(b) & 0b1111) << 4));

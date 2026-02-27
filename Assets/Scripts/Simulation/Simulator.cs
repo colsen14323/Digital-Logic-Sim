@@ -348,7 +348,45 @@ namespace DLS.Simulation
 					chip.updatedThisTick = true;
                     break;
 				}
-				case ChipType.Split_8To4Bit:
+                case ChipType.Merge_8To16Bit:
+                {
+                    SimPin in8A = chip.InputPins[0];
+                    SimPin in8B = chip.InputPins[1];
+                    SimPin out16 = chip.OutputPins[0];
+                    PinState.Set16BitFrom8BitSources(ref out16.State, in8B.State, in8A.State);
+                    chip.updatedThisTick = true;
+                    break;
+                }
+				case ChipType.Merge_16To32Bit:
+                {
+                    SimPin in16A = chip.InputPins[0];
+                    SimPin in16B = chip.InputPins[1];
+                    SimPin out32 = chip.OutputPins[0];
+                    PinState.Set32BitFrom16BitSources(ref out32.State, in16B.State, in16A.State);
+                    chip.updatedThisTick = true;
+                    break;
+                }
+                case ChipType.Split_32To16Bit:
+                {
+                    SimPin in32 = chip.InputPins[0];
+                    SimPin out16A = chip.OutputPins[0];
+                    SimPin out16B = chip.OutputPins[1];
+                    PinState.Set16BitFrom32BitSource(ref out16A.State, in32.State, false);
+                    PinState.Set16BitFrom32BitSource(ref out16B.State, in32.State, true);
+                    chip.updatedThisTick = true;
+                    break;
+                }
+                case ChipType.Split_16To8Bit:
+                {
+                    SimPin in16 = chip.InputPins[0];
+                    SimPin out8A = chip.OutputPins[0];
+                    SimPin out8B = chip.OutputPins[1];
+                    PinState.Set8BitFrom16BitSource(ref out8A.State, in16.State, false);
+                    PinState.Set8BitFrom16BitSource(ref out8B.State, in16.State, true);
+                    chip.updatedThisTick = true;
+                    break;
+                }
+                case ChipType.Split_8To4Bit:
 				{
 					SimPin in8 = chip.InputPins[0];
 					SimPin out4A = chip.OutputPins[0];
