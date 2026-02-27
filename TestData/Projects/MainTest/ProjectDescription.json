@@ -1,17 +1,17 @@
 {
   "ProjectName": "MainTest",
-  "DLSVersion_LastSaved": "2.1.5",
+  "DLSVersion_LastSaved": "2.1.6",
   "DLSVersion_EarliestCompatible": "2.0.0",
-  "CreationTime": "2025-03-14T18:23:30.404+01:00",
-  "LastSaveTime": "2025-05-04T09:15:41.061+02:00",
+  "CreationTime": "2025-03-14T10:23:30.404-07:00",
+  "LastSaveTime": "2026-02-27T01:41:06.708-08:00",
   "Prefs_MainPinNamesDisplayMode": 2,
   "Prefs_ChipPinNamesDisplayMode": 1,
   "Prefs_GridDisplayMode": 1,
   "Prefs_Snapping": 0,
   "Prefs_StraightWires": 0,
   "Prefs_SimPaused": false,
-  "Prefs_SimTargetStepsPerSecond": 150,
-  "Prefs_SimStepsPerClockTick": 6,
+  "Prefs_SimTargetStepsPerSecond": 5,
+  "Prefs_SimStepsPerClockTick": 2,
   "AllCustomChipNames":[
     "AND",
     "D-LATCH",
@@ -62,7 +62,11 @@
     "RAM-sync",
     "TEST MergeSplit",
     "#",
-    "BuzzTest"
+    "BuzzTest",
+    "Clock test",
+    "Test",
+    "Pulse test",
+    "3state test"
   ],
   "StarredList":[
     {
@@ -96,12 +100,28 @@
     {
       "Name":"BuzzTest",
       "IsCollection":false
+    },
+    {
+      "Name":"Clock test",
+      "IsCollection":false
+    },
+    {
+      "Name":"Test",
+      "IsCollection":false
+    },
+    {
+      "Name":"Pulse test",
+      "IsCollection":false
+    },
+    {
+      "Name":"3state test",
+      "IsCollection":false
     }
   ],
   "ChipCollections":[
     {
       "Chips":["NAND","AND","NOT","NOR","XOR","OR","KEY","CLOCK","3-STATE BUFFER"],
-      "IsToggledOpen":false,
+      "IsToggledOpen":true,
       "Name":"BASICS"
     },
     {
@@ -131,7 +151,7 @@
     },
     {
       "Chips":["D-LATCH","FLIP-FLOP","OR-8","MEM-1","NOT-8","AND(8,1)","MUX-8","PC","BUF-8","ALU-8","DECODE-3","AND-3","CONTROL UNIT","TOGGLE","FLAGS","DISP-7","demo","7-SEGMENT DRIVER","DABBLE","LSB","LSHIFT-8","DOUBLE DABBLE","ALU","BUS BUFFER","MEM-256","REGISTER-8","XNOR","EQUALS-8","ADDER-4","DECODER-2","ADDER-8","ADDER","MEM-16","REGISTER-1","AND-8","RAM-256×8 (async)","ROM 256×16"],
-      "IsToggledOpen":false,
+      "IsToggledOpen":true,
       "Name":"KEEP"
     },
     {
@@ -140,7 +160,7 @@
       "Name":"TEST"
     },
     {
-      "Chips":["PULSE","TEST MergeSplit"],
+      "Chips":["PULSE","TEST MergeSplit","BUZZER","#","BuzzTest","Clock test","Test","Pulse test","3state test"],
       "IsToggledOpen":true,
       "Name":"OTHER"
     }

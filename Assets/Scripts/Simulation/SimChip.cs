@@ -15,8 +15,10 @@ namespace DLS.Simulation
 		public readonly bool IsBuiltin;
 		public SimPin[] InputPins = Array.Empty<SimPin>();
 		public int numConnectedInputs;
+        public bool updatedThisTick;
+        public bool working;
 
-		public int numInputsReady;
+        public int numInputsReady;
 		public SimPin[] OutputPins = Array.Empty<SimPin>();
 		public SimChip[] SubChips = Array.Empty<SimChip>();
 
@@ -88,7 +90,7 @@ namespace DLS.Simulation
 		public void UpdateInternalState(uint[] source) => Array.Copy(source, InternalState, InternalState.Length);
 
 
-		public void Sim_PropagateInputs()
+        public void Sim_PropagateInputs()
 		{
 			int length = InputPins.Length;
 
@@ -106,8 +108,8 @@ namespace DLS.Simulation
 			{
 				OutputPins[i].PropagateSignal();
 			}
-
-			numInputsReady = 0; // Reset for next frame
+			updatedThisTick = false;
+            numInputsReady = 0; // Reset for next frame
 		}
 
 		public bool Sim_IsReady() => numInputsReady == numConnectedInputs;
