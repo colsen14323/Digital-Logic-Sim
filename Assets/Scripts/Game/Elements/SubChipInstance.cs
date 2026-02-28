@@ -199,7 +199,10 @@ namespace DLS.Game
 				{
 					PinBitCount.Bit1 => 2,
 					PinBitCount.Bit4 => 3,
-					_ => 4
+                    PinBitCount.Bit8 => 4,
+                    PinBitCount.Bit16 => 6,
+                    PinBitCount.Bit32 => 9,
+                    _ => 4
 				};
 
 				pinGridYVals[i] = gridY - pinGridHeight / 2f;

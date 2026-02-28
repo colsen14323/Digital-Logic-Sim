@@ -1,3 +1,4 @@
+using System;
 using DLS.Game;
 using Seb.Helpers;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace DLS.Graphics
 		public static void CreateMultiBitWireLayout(WireInstance.BitWire[] bitWires, WireInstance wire, float thickness)
 		{
 			// At 1, wires are spaced apart by their thickness. This can cause slight slivers to appear though due to antialiasing, so it helps to smoosh them together slightly 
-			const float thicknessOffsetT = 0.925f;
+			float thicknessOffsetT = (float)(0.975f - (0.1f * Math.Sqrt(bitWires.Length)));
 
 			// Ensure initialized
 			foreach (WireInstance.BitWire bitWire in bitWires)
