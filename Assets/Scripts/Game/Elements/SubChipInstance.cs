@@ -21,7 +21,7 @@ namespace DLS.Game
 		public readonly SubChipDescription InitialSubChipDesc;
 		public readonly PinInstance[] InputPins;
 
-		public readonly uint[] InternalData;
+		public readonly ulong[] InternalData;
 		public readonly bool IsBus;
 		public readonly Vector2 MinSize;
 
@@ -57,7 +57,7 @@ namespace DLS.Game
 			}
 			else
 			{
-				InternalData = new uint[subChipDesc.InternalData.Length];
+				InternalData = new ulong[subChipDesc.InternalData.Length];
 				Array.Copy(subChipDesc.InternalData, InternalData, InternalData.Length);
 
 				if (ChipType == ChipType.Key)

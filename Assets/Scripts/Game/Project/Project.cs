@@ -282,7 +282,7 @@ namespace DLS.Game
 		}
 
 		// Chip's pulse width has been changed, so simulation must be updated
-		public void NotifyPulseWidthChanged(SubChipInstance chip, uint widthNew)
+		public void NotifyPulseWidthChanged(SubChipInstance chip, ulong widthNew)
 		{
 			SimChip simChip = rootSimChip.GetSubChipFromID(chip.ID);
 			simChip.InternalState[0] = widthNew;

@@ -434,7 +434,7 @@ namespace DLS.Graphics
 				if (simActive)
 				{
 					bool isOn = sim.InputPins[0].FirstBitHigh;
-					uint displayColIndex = sim.InternalState[0];
+					ulong displayColIndex = sim.InternalState[0];
 					col = GetStateColour(isOn, displayColIndex);
 				}
 
@@ -471,7 +471,7 @@ namespace DLS.Graphics
 					if (useSim)
 					{
 						int address = y * 16 + x;
-						uint pixelState = simSource.InternalState[address];
+						ulong pixelState = simSource.InternalState[address];
 						float red = Unpack4BitColChannel(pixelState);
 						float green = Unpack4BitColChannel(pixelState >> 4);
 						float blue = Unpack4BitColChannel(pixelState >> 8);
@@ -485,7 +485,7 @@ namespace DLS.Graphics
 
 			return Bounds2D.CreateFromCentreAndSize(centre, Vector2.one * scale);
 
-			float Unpack4BitColChannel(uint raw)
+			float Unpack4BitColChannel(ulong raw)
 			{
 				return (raw & 0b1111) / 15f;
 			}
@@ -515,7 +515,7 @@ namespace DLS.Graphics
 					if (useSim)
 					{
 						int address = y * 16 + x;
-						uint pixelState = simSource.InternalState[address];
+						ulong pixelState = simSource.InternalState[address];
 						float v = pixelState;
 						col = new Color(pixelState, pixelState, pixelState);
 					}

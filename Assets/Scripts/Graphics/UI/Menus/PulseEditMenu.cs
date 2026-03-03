@@ -10,7 +10,7 @@ namespace DLS.Graphics
 	public static class PulseEditMenu
 	{
 		static SubChipInstance pulseChip;
-		static uint pulseWidth;
+		static ulong pulseWidth;
 
 		static readonly UIHandle ID_PulseWidthInput = new("PulseChipEdit_PulseWidth");
 		static readonly Func<string, bool> integerInputValidator = ValidatePulseWidthInput;
@@ -33,7 +33,7 @@ namespace DLS.Graphics
 				Vector2 size = new(5.6f, DrawSettings.SelectorWheelHeight);
 				Vector2 inputPos = UI.PrevBounds.CentreBottom + Vector2.down * DrawSettings.VerticalButtonSpacing;
 				InputFieldState state = UI.InputField(ID_PulseWidthInput, inputFieldTheme, inputPos, size, string.Empty, Anchor.CentreTop, 1, integerInputValidator, forceFocus: true);
-				uint.TryParse(state.text, out pulseWidth);
+				ulong.TryParse(state.text, out pulseWidth);
 
 				MenuHelper.CancelConfirmResult result = MenuHelper.DrawCancelConfirmButtons(UI.GetCurrentBoundsScope().BottomLeft, UI.GetCurrentBoundsScope().Width, true);
 				MenuHelper.DrawReservedMenuPanel(panelID, UI.GetCurrentBoundsScope());

@@ -15,9 +15,10 @@ namespace DLS.Description
 		// ---- Memory ----
 		dev_Ram_8Bit,
 		Rom_256x16,
+        Register_32,
 
-		// ---- Displays ----
-		SevenSegmentDisplay,
+        // ---- Displays ----
+        SevenSegmentDisplay,
 		DisplayRGB,
 		DisplayDot,
 		DisplayLED,

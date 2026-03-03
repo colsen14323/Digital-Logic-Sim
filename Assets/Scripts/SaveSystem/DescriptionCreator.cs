@@ -63,7 +63,7 @@ namespace DLS.SaveSystem
 				subChip.Position,
 				// Don't save colour info for bus since it changes based on received input, so would just trigger unnecessary 'unsaved changes' warnings
 				subChip.IsBus ? null : subChip.OutputPins.Select(p => new OutputPinColourInfo(p.Colour, p.Address.PinID)).ToArray(),
-				(uint[])subChip.InternalData?.Clone()
+				(ulong[])subChip.InternalData?.Clone()
 			);
 		}
 
@@ -80,15 +80,16 @@ namespace DLS.SaveSystem
 			);
 		}
 
-		public static uint[] CreateDefaultInstanceData(ChipType type)
+		public static ulong[] CreateDefaultInstanceData(ChipType type)
 		{
 			return type switch
 			{
-				ChipType.Rom_256x16 => new uint[256], // ROM contents
-				ChipType.Key => new uint[] { 'K' }, // Key binding
-				ChipType.Pulse => new uint[] { 50, 0, 0 }, // Pulse width, ticks remaining, input state old
-				ChipType.DisplayLED => new uint[] { 0 }, // LED colour
-				_ => ChipTypeHelper.IsBusType(type) ? new uint[2] : null
+				ChipType.Rom_256x16 => new ulong[256], // ROM contents
+                ChipType.Register_32 => new ulong[1], // ROM contents
+                ChipType.Key => new ulong[] { 'K' }, // Key binding
+				ChipType.Pulse => new ulong[] { 50, 0, 0 }, // Pulse width, ticks remaining, input state old
+				ChipType.DisplayLED => new ulong[] { 0 }, // LED colour
+				_ => ChipTypeHelper.IsBusType(type) ? new ulong[2] : null
 			};
 		}
 

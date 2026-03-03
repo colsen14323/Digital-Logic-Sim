@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using DLS.Game;
+using Newtonsoft.Json.Linq;
 using Seb.Helpers;
 using Seb.Types;
 using Seb.Vis;
@@ -142,7 +143,7 @@ namespace DLS.Graphics
 				}
 			}
 
-			return UIntToDisplayString(uintValue, dataDisplayMode, ActiveRomDataBitCount);
+			return ULongToDisplayString(uintValue, dataDisplayMode, ActiveRomDataBitCount);
 		}
 
 		static void CopyAll()
@@ -183,7 +184,7 @@ namespace DLS.Graphics
 			{
 				InputFieldState state = UI.GetInputFieldState(IDS_inputRow[i]);
 				TryParseDisplayStringToUInt(state.text, modeCurr, ActiveRomDataBitCount, out uint uintValue);
-				state.SetText(UIntToDisplayString(uintValue, modeNew, ActiveRomDataBitCount), false);
+				state.SetText(ULongToDisplayString(uintValue, modeNew, ActiveRomDataBitCount), false);
 			}
 		}
 
@@ -208,12 +209,12 @@ namespace DLS.Graphics
 		}
 
 		// Convert from uint to display string with given display mode
-		static string UIntToDisplayString(uint raw, DataDisplayMode displayFormat, int bitCount)
+		static string ULongToDisplayString(ulong raw, DataDisplayMode displayFormat, int bitCount)
 		{
 			return displayFormat switch
 			{
-				DataDisplayMode.Binary => Convert.ToString(raw, 2).PadLeft(bitCount, '0'),
-				DataDisplayMode.DecimalSigned => Maths.TwosComplement(raw, bitCount) + "",
+				DataDisplayMode.Binary => Convert.ToString((uint)raw, 2).PadLeft(bitCount, '0'),
+				DataDisplayMode.DecimalSigned => Maths.TwosComplement((uint)raw, bitCount) + "",
 				DataDisplayMode.DecimalUnsigned => raw + "",
 				DataDisplayMode.HEX => raw.ToString("X").PadLeft(bitCount / 4, '0'),
 				_ => throw new NotImplementedException("Unsupported display format: " + displayFormat)
@@ -359,7 +360,7 @@ namespace DLS.Graphics
 				IDS_inputRow[i] = new UIHandle("ROM_rowInputField", i);
 				InputFieldState state = UI.GetInputFieldState(IDS_inputRow[i]);
 
-				string displayString = UIntToDisplayString(romChip.InternalData[i], dataDisplayMode, ActiveRomDataBitCount);
+				string displayString = ULongToDisplayString(romChip.InternalData[i], dataDisplayMode, ActiveRomDataBitCount);
 				state.SetText(displayString, i == focusedRowIndex);
 
 				rowNumberStrings[i] = (i + ":").PadLeft(lineNumberPadLength + 1, '0');

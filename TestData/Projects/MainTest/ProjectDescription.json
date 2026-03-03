@@ -3,7 +3,7 @@
   "DLSVersion_LastSaved": "2.1.6",
   "DLSVersion_EarliestCompatible": "2.0.0",
   "CreationTime": "2025-03-14T10:23:30.404-07:00",
-  "LastSaveTime": "2026-02-28T01:02:16.434-08:00",
+  "LastSaveTime": "2026-03-02T23:29:40.937-08:00",
   "Prefs_MainPinNamesDisplayMode": 2,
   "Prefs_ChipPinNamesDisplayMode": 1,
   "Prefs_GridDisplayMode": 1,
@@ -140,7 +140,7 @@
       "Name":"IN/OUT"
     },
     {
-      "Chips":["PULSE","TEST MergeSplit","BUZZER","#","BuzzTest","Clock test","Test","Pulse test","3state test","Display test","big bit test"],
+      "Chips":["PULSE","TEST MergeSplit","BUZZER","#","BuzzTest","Clock test","Test","Pulse test","3state test","Display test","big bit test","Register-32Bit","Register 32Bit"],
       "IsToggledOpen":true,
       "Name":"OTHER"
     },

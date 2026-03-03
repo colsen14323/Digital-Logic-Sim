@@ -276,7 +276,7 @@ namespace DLS.Simulation
 
 					ulong inputState = chip.InputPins[0].State;
 					bool pulseInputHigh = PinState.FirstBitHigh(inputState);
-					uint pulseTicksRemaining = chip.InternalState[pulseTicksRemainingIndex];
+					ulong pulseTicksRemaining = chip.InternalState[pulseTicksRemainingIndex];
 
 					if (pulseTicksRemaining == 0)
 					{
@@ -445,7 +445,7 @@ namespace DLS.Simulation
 					ulong refreshPin = chip.InputPins[6].State;
 					ulong clockPin = chip.InputPins[7].State;
 
-						uint prevData = chip.InternalState[PinState.GetBitStates(addressPin)];
+						ulong prevData = chip.InternalState[PinState.GetBitStates(addressPin)];
 
                     // Detect clock rising edge
                     bool clockHigh = PinState.FirstBitHigh(clockPin);
@@ -481,7 +481,7 @@ namespace DLS.Simulation
 					}
 
 					// Output current pixel colour
-					uint colData = chip.InternalState[PinState.GetBitStates(addressPin)];
+					ulong colData = chip.InternalState[PinState.GetBitStates(addressPin)];
 					if(colData != prevData) chip.updatedThisTick = true;
 					chip.OutputPins[0].State = (ushort)((colData >> 0) & 0b1111); // red
 					chip.OutputPins[1].State = (ushort)((colData >> 4) & 0b1111); // green
@@ -575,14 +575,22 @@ namespace DLS.Simulation
 				}
 				case ChipType.Rom_256x16:
 				{
-					const int ByteMask = 0b11111111;
+					const int ByteMask = 0b1111111111111111;
 					ulong address = PinState.GetBitStates(chip.InputPins[0].State);
-					uint data = chip.InternalState[address];
-					chip.OutputPins[0].State = (ushort)((data >> 8) & ByteMask);
-					chip.OutputPins[1].State = (ushort)(data & ByteMask);
+					ulong data = chip.InternalState[address];
+					chip.OutputPins[0].State = (uint)((data >> 8) & ByteMask);
+					chip.OutputPins[1].State = (uint)(data & ByteMask);
 					break;
 				}
-				case ChipType.Buzzer:
+                case ChipType.Register_32:
+                {
+                    ulong value = PinState.GetBitStates(chip.InputPins[0].State);
+                    ulong save = PinState.GetBitStates(chip.InputPins[1].State);
+					if ((save & 0b1) == 1) chip.InternalState[0] = value;
+                    chip.OutputPins[0].State = chip.InternalState[0];
+                    break;
+                }
+                case ChipType.Buzzer:
 				{
 					ulong freqIndex = PinState.GetBitStates(chip.InputPins[0].State);
 					ulong volumeIndex = PinState.GetBitStates(chip.InputPins[1].State);
@@ -610,14 +618,14 @@ namespace DLS.Simulation
 			return BuildSimChip(chipDesc, library, -1, null);
 		}
 
-		public static SimChip BuildSimChip(ChipDescription chipDesc, ChipLibrary library, int subChipID, uint[] internalState)
+		public static SimChip BuildSimChip(ChipDescription chipDesc, ChipLibrary library, int subChipID, ulong[] internalState)
 		{
 			SimChip simChip = BuildSimChipRecursive(chipDesc, library, subChipID, internalState);
 			return simChip;
 		}
 
 		// Recursively build full representation of chip from its description for simulation.
-		static SimChip BuildSimChipRecursive(ChipDescription chipDesc, ChipLibrary library, int subChipID, uint[] internalState)
+		static SimChip BuildSimChipRecursive(ChipDescription chipDesc, ChipLibrary library, int subChipID, ulong[] internalState)
 		{
 			// Recursively create subchips
 			SimChip[] subchips = chipDesc.SubChips.Length == 0 ? Array.Empty<SimChip>() : new SimChip[chipDesc.SubChips.Length];
@@ -665,7 +673,7 @@ namespace DLS.Simulation
 			modificationQueue.Enqueue(command);
 		}
 
-		public static void AddSubChip(SimChip simChip, ChipDescription desc, ChipLibrary chipLibrary, int subChipID, uint[] subChipInternalData)
+		public static void AddSubChip(SimChip simChip, ChipDescription desc, ChipLibrary chipLibrary, int subChipID, ulong[] subChipInternalData)
 		{
 			SimModifyCommand command = new()
 			{
@@ -789,7 +797,7 @@ namespace DLS.Simulation
 			public ChipDescription chipDesc;
 			public ChipLibrary lib;
 			public int subChipID;
-			public uint[] subChipInternalData;
+			public ulong[] subChipInternalData;
 			public PinAddress sourcePinAddress;
 			public PinAddress targetPinAddress;
 			public SimPin simPinToAdd;
